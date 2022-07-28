@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件修饰符</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <!-- 
+        vue中的事件修饰符
+        1.prevent：阻止默认事件（常用）
+        2.stop：阻止事件冒泡（常用）
+        3.once：事件只触发一次（常用）
+        4.capture：使用事件的捕获模式
+        5.self：只有event.target是当前操作的元素才触发事件
+        6.passive：事件的默认行为立即执行，无需等待事件回调执行完毕
+     -->
+    <div class="main">
+        <h1>{{who}}欢迎学习！</h1>
+        <!-- 阻止默认事件（常用） -->
+        <a href="http://www.atguigu.com" @click.prevent="show">点我提示信息</a>
+        <!-- 阻止事件冒泡（常用） -->
+        <div class="top1" @click="show">
+            <button @click.stop="show" >点我提示信息</button>
+        </div>
+        <!-- 事件只触发一次（常用） -->
+        <button @click.once="show">点我推送</button>
+        <!-- 使用事件的捕获模式 -->
+        <!-- 事件是先捕获再冒泡的，用capture修饰符以后div1捕获到直接就触发事件catchc(1),所以会先alert(1) -->
+        <div class="fdiv" @click.capture="catchc(1)">
+            div1
+            <div class="sdiv"  @click="catchc(2)">
+                div2
+            </div>
+        </div>
+        <!-- 只有event.target是当前操作的元素才触发事件 -->
+        <!-- 分析:此时div的触发是由button触发冒泡上去的。因此，
+            此时event.target为按钮，当前操作的元素为div因而不触发div事件 -->
+        <div class="top1" @click.self="show">
+            <button @click.stop="show" >点我提示信息</button>
+        </div>
+        <!-- 事件的默认行为立即执行，无需等待事件回调执行完毕 -->
+        <!-- 分析:不加passive时，wheel滚动时必须等待demo事件回调执行完毕后才可进行事件的默认行为(滚动条滚动) -->
+        <!-- 注：scroll滚到不存在上述问题 -->
+        <!-- <ul @scroll="demo" class="list"> -->
+        <ul @wheel.passive="demo" class="list">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+        el:'.main',
+        data:{
+            who:'你好，'
+        },
+        methods:{
+            show(e){
+                alert('包含提示！');
+                // e.preventDefault();      //阻止默认行为
+                //e.stopPropagation();      //阻止冒泡
+                console.log(event,'event');
+            },
+            catchc(msg){
+                alert(msg);
+            },
+            demo(){
+                for (let i = 0; i < 10000; i++) {
+                    console.log('/');  
+                }
+                console.log('完事了')
+            }
+        }
+        
+    })
+</script>
+<style>
+    .top1{
+        width: 100wh;
+        background-color: burlywood;
+    }
+    .fdiv{
+        width:300px;
+        height:200px;
+        background-color: cadetblue;
+    }
+    .sdiv{
+        width:80%;
+        height:80%;
+        background-color: chocolate;
+    }
+    .list{
+        width:200px;
+        height:200px;
+        background-color: darksalmon;
+        overflow: auto;
+    }
+    li{
+        height: 200px;
+    }
+</style>
+</html>

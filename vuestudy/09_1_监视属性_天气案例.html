@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监视属性_天气案例</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>今天天气很{{weatherInfo}}{{time}}</h2>
+        <button @click="changeWeather">点击此处切换天气</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            flag:true,
+            time:0
+        },
+        computed:{
+            weatherInfo(){
+                if (this.flag) {
+                    return '炎热'
+                }
+                else{
+                    return '凉爽'
+                }
+            },
+        },
+        methods: {
+            changeWeather(e){
+                console.log(e);
+                this.time++;
+                this.flag = !this.flag;
+            }
+        },
+    })
+</script>
+</html>

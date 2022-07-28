@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <!-- <h1 class="main1">{{name}}</h1> -->
+    <h1 class="main2">{{name}}</h1>
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false
+    //el的两种写法
+    // const v = new Vue({
+    //     // el:'main1',
+    //     data:{
+    //         name:'华尔街之狼'
+    //     }
+        
+        
+    // })
+    // console.log(v);
+    // v.$mount('.main2')
+
+    //data的两种写法
+    const v = new Vue({
+        el:'.main2',
+        //函数式
+        data(){
+            console.log('???',this);
+            return {
+                name:'尚硅谷'
+            }
+        }
+        //不可采用箭头函数写法去定义data
+        //对象式
+        //data:{
+            // name:'尚硅谷'
+        // }
+    })
+</script>
+</html>

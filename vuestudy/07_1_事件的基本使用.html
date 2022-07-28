@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件的基本使用</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div class="main"> 
+        <h2>欢迎来到{{name}}学习</h2>
+        <!-- v-on等价于@ -->
+        <button v-on:click="showInfo"> 点击我查看提示信息 </button>
+        <button v-on:click="showInfo1(66,$event)"> 点击我查看提示信息(用$event为event参数占位) </button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+        el:'.main',
+        data:{
+            name:'清华'
+        },
+        methods: {
+            showInfo(a,b,c,d){ 
+                // console.log(event.target.innerText);
+                // console.log(a,b,c,d);
+                // console.log(this);   //this指代vm
+                alert('你好！')
+            },
+            showInfo1(a,event){
+                console.log(event);
+                console.log(a);
+            }
+        },
+    })
+</script>
+</html>

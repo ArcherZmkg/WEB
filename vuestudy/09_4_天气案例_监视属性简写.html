@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气案例_监视属性</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <!-- 
+        监视属性watch
+            1.当被监视的属性变化时，回调函数自动调用，进行相关操作
+            2.监视的属性必须存在，才能进行监视！
+            3.监视的两种写法：
+                (1).new Vue时传入watch配置
+                (2).通过vm.$watch监视
+    
+    -->
+    <div id="root">
+        <h2>今天天气很{{weatherInfo}}{{time}}</h2>
+        <button @click="changeWeather">点击此处切换天气</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            flag:true,
+            time:0
+        },
+        computed:{
+            weatherInfo(){
+                if (this.flag) {
+                    return '炎热'
+                }
+                else{
+                    return '凉爽'
+                }
+            },
+        },
+        methods: {
+            changeWeather(e){
+                console.log(e);
+                this.time++;
+                this.flag = !this.flag;
+            }
+        },
+        watch:{
+            //正常写法
+            // flag:{
+            //     immediate:true,     //  初始化时让handler调用一下
+            //     deep:true,          //  深度监视
+            //     //handler什么时候被调用？当flag发生改变时
+            //     handler(newVal,oldVal){
+            //         console.log('天气被修改为',this.flag === true?'炎热':'寒冷');
+            //     }
+            // }
+
+            //简写
+            // flag(newVal,oldVal){
+            //     console.log('#@');
+            // }
+        }
+        
+    })
+
+    //完整写法
+    // vm.$watch('weatherInfo',{
+    //     // immediate:true,//初始化时让handler调用一下
+    //     // deep:true,//是否深度
+    //     //handler什么时候被调用？当flag发生改变时
+    //     handler(newVal,oldVal){
+    //         console.log('天气被修改为',weat);
+    //     }
+    // })
+
+    //简写
+    vm.$watch('weatherInfo',function(nv,ov){
+        console.log('flag被修改了！',this);
+    })
+</script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例_watch实现</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div class="main">
+        <h2>姓</h2>
+        <input type="text" v-model='name.xing'></input>
+        <h2>名</h2>
+        <input type="text" v-model='name.ming'></input>
+        <h2>他的名字是{{name.fullName}}</h2>
+    </div>
+</body>
+<script>
+    const vm = new Vue({
+        el:'.main',
+        data:{
+            name:{
+                xing:'张',
+                ming:'三',
+                fullName:'张三'
+            }
+        },
+        watch:{
+            name:{
+                // immediate:true,
+                deep:true,
+                handler(nv,ov){
+                    console.log(nv,'名字已更新！');
+                    this.name.fullName =  this.name.xing+this.name.ming
+                }
+            }
+        }
+    })
+</script>
+</html>
