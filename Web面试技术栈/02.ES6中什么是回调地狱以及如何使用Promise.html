@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //什么是回调地狱(多个串联的异步操作)以及如何使用Promise解决
+        //歌单 -> 歌单列表 ->  歌曲的信息
+        //需求:一秒钟之后输出1，然后两秒钟之后输出2，然后三秒钟之后输出3
+
+        // setTimeout(()=>{
+        //     console.log('111');
+        //     setTimeout(()=>{
+        //         console.log('222');
+        //         setTimeout(()=>{
+        //             console.log('333');
+        //         },3000)
+        //     },2000)
+        // },1000)
+
+        function getData(){
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    console.log('111');
+                    resolve('222')
+                },1000)
+            })
+        }
+
+        getData().then((value)=>{
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    console.log(value);
+                    resolve('333')
+                },2000)
+            })
+        }).then((value)=>{
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    console.log(value);
+                },3000)
+            })
+        })
+    </script>
+</body>
+</html>

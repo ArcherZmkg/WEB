@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //ES6中Promise.race的用法以及使用场景
+        //将多个Promise实例包装成一个新的Promise实例
+        let p1 = new Promise((reslove,reject)=>{
+            setTimeout(()=>{
+                console.log('p1成功');
+            },2000)
+        })
+        
+        let p2 = new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                console.log('p2成功');
+            },1000)
+        })
+        //调用
+        const prace =  Promise.race([p1,p2]);
+        console.log(prace);
+        //Promise.race区别于Promise.all,只要实例中有一个先改变状态，就会把这个实例参数的返回值传递给prace回调函数
+        //使用场景：请求超时提示
+        function request(){
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    resolve('请求成功')
+                },4000)
+            })
+        }
+        function timeout(){
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    reject('请求超时')
+                },3000)
+            })
+        }
+        
+        Promise.race([request(),timeout()]).then((value)=>{
+            console.log(value);
+        }).catch((reason)=>{
+            console.log(reason);
+        })
+    </script>
+</body>
+</html>

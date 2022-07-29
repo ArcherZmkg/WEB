@@ -1,0 +1,71 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+ </head>
+ <body>
+    <script>
+        // ES6中对Promise的理解以及他的实例方法
+        //是异步编程的一种解决方案
+        //三种状态:pending(进行中)、fulfilled(已成功)、rejected(已失败)
+        //特点:状态不受外界的影响。只有异步操作的结果，决定当前是哪一种状态
+        //仅存在这两种状态转变(pending -> fulfilled,pengding -> rejected)
+        //用法:Promise是一个构造函数，用来生成Promise实例
+        //Promise构造函数接收一个函数作为参数，这个函数具有两个参数
+        // const p = new Promise(function(resolve,reject){
+        //     //resolve函数：将Promise对象的状态从未完成变成成功，在异步操作成功的时候调用
+        //     reslove();//返回异步操作的结果，作为参数传递出去
+        //     //reject函数：将Promise对象的状态从未完成变成失败，在异步操作失败的时候调用
+        //     reject();//返回异步操作的结果，作为参数传递出去
+        // })
+        //Promise实例方法
+
+        //then():当实例状态发生改变的时候的回调函数,返回的是一个新的Promise的实例，也就是Promise可以链式调用的原因
+        const p = new Promise(function(resolve,reject){
+            setTimeout(()=>{
+                const time = new Date().getTime()
+                if (time%2==0){
+                    resolve('成功的数据,time='+time)
+                }
+                else{
+                    reject('失败的数据,time='+time)
+                }
+            },1000)
+        })
+        p.then((value)=>{
+            //resolved(已成功)的状态
+            console.log('成功的',value,'.');
+        },(reason)=>{
+            //rejected(已失败)的状态
+            console.log('失败的',reason,'!');
+        })
+
+
+        //catch():用于指定发生错误时的回调函数,一般来说通过catch替代then中的第二个参数
+        p.catch((value)=>{
+            console.log(value);
+        })
+        //上述Promise实例方法的then具有冒泡性质，如若得到reject状态后还会一直向下冒泡，
+        //直到被catch捕获后才会停止，因此通常情况下，
+        //我们会采用以下方式去获取失败的状态返回值
+        p.then((value)=>{
+            console.log('成功状态',value);
+        }).catch((value)=>{
+            console.log('失败状态被捕获',value);
+        })
+
+
+        //finally():用来指定不管Promise对象的状态最后如何，都会执行的操作
+        p.then((value)=>{
+            console.log(value);
+        }).catch((value)=>{
+            console.log(value);
+        }).finally(()=>{
+            console.log('最后的结果');
+        })
+    </script>
+ </body>
+ </html>
