@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS数据类型检测的方式有哪些
+
+        //  1.typeof(检测数据类型的运算符)
+        console.log("数值",typeof 10);
+        console.log('布尔',typeof  true);
+        console.log("字符串",typeof '你好');
+        console.log("数组",typeof []);
+        console.log("函数",typeof function(){});
+        console.log("对象",typeof{});
+        console.log('undefined',typeof undefined);
+        console.log('null',typeof null);
+        
+        //  2.instanceof(检测某一个实例是否属于这个类)
+        //  可以正确判断对象的类型，不可以判断基本数据类型，内部运行机制，判断在它的原型链上能否找到这个类型的原型
+        console.log('数值',10 instanceof Number);
+        console.log('布尔',true instanceof Boolean);
+        console.log('数组',[] instanceof Array);
+        console.log('字符串','你好' instanceof String);
+        console.log('函数',function(){} instanceof Function);
+        console.log('对象',{} instanceof Object);
+
+        //  3.constructor(检测实例和类的关系，从而检测数据类型)
+        console.log('数值',(10).constructor === Number);
+        console.log('布尔',(true).constructor === Boolean);
+        console.log('字符串',('你好').constructor === String);
+        console.log('数组',([]).constructor === Array);
+        console.log('函数',(function(){}).constructor === Function);
+        console.log('对象',({}).constructor === Object);
+
+        //Object.prototype.toString.call()(检测数据类型)
+        var a=Object.prototype.toString;
+        console.log("数值",a.call(10));
+        console.log("布尔",a.call(true));
+        console.log("字符串",a.call('你好'));
+        console.log("数组",a.call([]));
+        console.log('函数',a.call(function(){}));
+        console.log('对象',a.call({}));
+        console.log('undefined',a.call(undefined));
+        console.log('null',a.call(null));
+    </script>
+</body>
+</html>

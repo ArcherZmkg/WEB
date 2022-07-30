@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //javascript有哪些数据类型，它们的区别？
+        //总共有七种
+        //基本数据类型：string/number/boolean/null/undefined/symbol(symbol代表创建之后独一无二且不可变的数据类型)
+        //引用数据类型：Object
+        /*
+            区别：
+            1.声明变量时的存储分配
+                - 基本数据类型存储在栈中 var a=10
+                - 引用数据类型存储在堆中 var arr=[1,2,3,4]
+            2.不同的内存分配机制也带来了不同的访问机制
+                - 不可以直接访问堆内存空间的位置以及直接操作堆内存空间，只能去操作对象在栈内存中的引用地址
+                - 基本数据类型是可以直接访问到，引用数据类型访问引用地址，根据引用地址去找到堆中的实体
+            3.复制变量时的不同
+                - 基本数据类型：var a=1,var b=a，将原始值的副本赋值新的变量，传值
+                - 引用数据类型：var obj={name:'张三'},var obj1=obj,将引用地址赋值给新的变量,传引用地址
+        */
+    var a=[1,2,3,4,5];
+    var b=a;
+    var c=a[0];
+    console.log(b);   
+    console.log(c);
+    //改变数值
+    b[4]=6;
+    c=7;
+    console.log(a[4]);
+    console.log(c);
+    </script>
+</body>
+</html>
