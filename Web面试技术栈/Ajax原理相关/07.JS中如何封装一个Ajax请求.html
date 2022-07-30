@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中如何封装一个ajax请求
+        //请求方式，请求地址，请求参数，请求参数的类型
+        //请求返回的结果
+        function ajax(options){
+            //通过XMLHttpRequest实例化一个对象
+            const xhr = new XMLHttpRequest();
+            //初始化参数的内容
+            options = options || {}
+            options.type = (options.type || 'GET').toUpperCase()
+            options.dataType = options.dataType || 'json'
+            const params = options.data
+            //发送请求
+            if (options.type === 'GET'){
+                //第三个参数async:布尔值，表示是否异步执行操作
+                xhr.open('GET',options.url+"?"+params,true);
+                xhr.send(null);
+            }
+            else if(options.type === 'POST'){
+                xhr.open('POST',options.url,true)
+                xhr.send(params)
+            }
+            //接收请求
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState===4){
+                    if (xhr.status>=200&&xhr.status<300){
+                        //responseText 字符串的响应数据
+                        //responseXML  XML形式的响应数据
+                        options.success(xhr.responseText,xhr.responseXML)
+                    }
+                    else{
+                        options.fail('参数错误'+status)
+                    }
+                }
+            }
+        }
+        ajax({
+            type:'get',
+            dataType:'json',
+            data:{
+                limit:10
+            },
+            url:'http://localhost:3000/personalized',
+            success:function(text,xml){ //请求成功之后的回调函数
+                console.log(JSON.parse(text));
+            },
+            fail:function(status){//请求失败的回调函数
+                console.log(status);
+            }
+        })
+
+        //对传入参数做处理
+        function getParams(data){
+            let arr=[];
+            for(let key in data){
+                arr.push(`${key}=${data[key]}`)
+            }
+            console.log(arr);
+            return arr.join('&')
+        }
+
+        // getParams({
+        //     limit:15,
+        //     age:11
+        // })
+    </script>
+</body>
+</html>

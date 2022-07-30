@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中Ajax(Async Javascript and XML)的原理是什么？如何实现？
+        //原理：通过XMLHttpRequest对象来向服务器发送异步请求，从服务器获取数据，
+        //然后用js来操作Dom去更新页面
+        /*
+            实现过程：
+            - 创建Ajax的核心对象：XMLHttpRequest
+                new XMLHttpRequest()的实例化对象
+            - 通过XMLHttpRequest对象的open()方法与服务器建立连接
+                new XMLHttpRequest().open(method:表示请求方式(get或者post),url:服务器的请求地址)
+            - 构建请求所需的数据内容，并通过XMLHttpRequest对象的send()方法发送给服务器
+                new XMLHttpRequest().send(body:发送的数据)
+                如果使用get请求发送数据，send()参数设置为null
+            - 通过XMLHttpRequest对象提供的onreadystatechange事件监听服务器端的通信状态
+                new XMLHttpRequest().onreadystatechange主要监听的属性是实例化对象中的readyState(五种状态)
+                0：状态为未打开，表示open()方法未调用、
+                1：open()已经调用，send()未调用，还未发送请求、
+                2：send()已经调用，请求已经发送，响应头和响应状态已经返回、
+                3：响应体正在下载，responseText(接收服务端响应的结果)获取到部分的数据、
+                4：整个请求过程已经完毕
+                只要readyState属性值发生了改变，onreadyStatechange就会被触发
+            - 接收并处理服务端向客户端响应的数据结果
+            - 将处理结果更新到HTML页面中
+        */
+       const  xhr = new XMLHttpRequest();
+       xhr.open('GET','http://loacalhost:3000/personalized?limit=10')
+       xhr.send(null)
+       xhr.onreadystatechange=function(){
+           if (xhr.readyState === 4){
+               if (xhr.status>=200 && xhr.status<300){
+                //    console.log(xhr.responseText);
+                   let obj = JSON.parse(xhr.responseText);
+                   console.log(obj);
+                   obj.result.forEach(element => {
+                        var div = document.createElement('div');
+                        div.innerHTML = element.name
+                        document.querySelector('body').appendChild(div)
+                   });
+               }
+               else if (xhr.status>400){
+                   console.log('错误信息',xhr.status);
+               }
+           }
+       }
+    </script>
+</body>
+</html>
