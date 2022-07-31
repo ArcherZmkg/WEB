@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中Object.is()与比较操作符"==="(严格相等运算符)和"=="(相等运算符的区别
+        //双等号(==):如果两边的类型不一致，进行强制类型转换，然后再去进行比较
+        console.log(1==true);
+        console.log(1=='1');
+        //三等号(===):如果两边的类型不一致,不会进行强制类型转换，直接返回false
+        console.log(1===true);//false
+        console.log(1==='1');//false
+        console.log(NaN===NaN);//false
+        console.log(+0===-0);//true
+        //Object.is():用来判断两个值是否严格相等，处理一些特殊的情况，-0和+0不再相等，两个NaN是相等的
+        console.log(Object.is(+0,-0));//false
+        console.log(Object.is(NaN,NaN));//true
+    </script>
+</body>
+</html>

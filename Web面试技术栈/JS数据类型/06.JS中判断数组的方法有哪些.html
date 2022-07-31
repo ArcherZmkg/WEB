@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中判断数组的方法
+        //通过Object.prototype.toString.call()做判断
+        console.log(Object.prototype.toString.call([]).slice(8,-1)=='Array');
+        //通过原型链做判断
+        //对象的隐式原型等于构造函数的显式原型
+        console.log([].__proto__===Array.prototype);
+        //通过ES6的Array.isArray()做判断
+        console.log(Array.isArray([]));
+        //通过instanceof做判断
+        console.log([] instanceof Array);
+        //通过Array.prototype.isPrototypeOf做判断，判断Array是否在传入内容的原型链上
+        console.log(Array.prototype.isPrototypeof([]));
+
+    </script>
+</body>
+</html>
