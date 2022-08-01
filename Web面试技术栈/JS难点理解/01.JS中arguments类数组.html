@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中arguments类数组
+        //为什么函数的arguments参数是类数组(对象)而不是数组?如何遍历类数组?
+        //类数组:与数组相似，但是没有数组常见的方法属性
+        function  func(){
+            console.log(arguments);
+            for (let i=0;i<arguments.length;i++){
+                console.log(arguments[i]);
+            }
+        }
+        // func(1,2,3,4)
+        //  1. 将数组的方法应用到类数组上,使用call和apply，使用forEach
+        //  call：调用一个对象的一个方法，以另一个对象替换当前的对象
+        function func1(){
+            Array.prototype.forEach.call(arguments,(item)=>{
+                console.log(item);
+            })
+        }
+        func1(1,2,3)
+        //  2. 将类数组转化成数组,使用Array.from(),对一个类数组,创建一个新的数组实例
+        function func2(){
+            const arr=Array.from(arguments)
+            console.log(arr);
+            arr.forEach((item)=>{
+                console.log(item);
+            })
+        }
+        func2(1,2,3,4)
+        //  3.使用展开运算符将类数组转化成数组
+        function func3(){
+            const arr1=[...arguments]
+            console.log(arr1);
+            arr1.forEach((e)=>{
+                console.log(e);
+            })
+        }
+        func3(1,2,3,4,5,6)
+    </script>
+</body>
+</html>

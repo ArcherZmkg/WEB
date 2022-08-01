@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中isNaN和Number.isNaN的区别?
+        //isNaN:为了判断一个计算机结果或者变量的值是否为NaN
+        //isNaN(value):value表示检测的值
+        //isNaN的判断过程:首先进行类型检测，如果传入的参数不是数值类型，第二步将传入的参数转为数值类型，然后再去进行是否为NaN的判断
+        Number('')//0
+        Number(null)//0
+        Number(true)//1
+        Number(false)//0
+        Number(undefined)//NaN
+        Number('aa')//NaN
+        console.log('-------------------------isNaN()-----------------------------');
+        //isNaN()
+        console.log(isNaN(NaN));//true
+        console.log(isNaN(true));//false
+        console.log(isNaN('aa'));//true
+        console.log(isNaN(''));//false
+        console.log(isNaN(null));//false
+        console.log(isNaN(undefined));//true
+        console.log('------------------------Number.isNaN()------------------------');
+        //Number.isNaN(),ES6出来的Number对象的扩展的方法
+        //Number.isNaN(value):value表示检测的值
+        //Number.isNaN的判断过程：首先进行类型检测，如果传入的参数不是数值类型，直接返回false,如果判断是数值类型,然后再用isNaN()的方式进行判断
+        console.log(Number.isNaN(NaN));//true
+        console.log(Number.isNaN(true));//false
+        console.log(Number.isNaN('aa'));//false
+        console.log(Number.isNaN(''));//false
+        console.log(Number.isNaN(null));//false
+        console.log(Number.isNaN(undefined));//false
+        console.log(Number.isNaN(123));//false
+    </script>
+</body>
+</html>

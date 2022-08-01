@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //ES6中对象和数组的解构
+        //解构：一种提取数据的模式
+        //数组的解构:以元素的位置为匹配条件
+        const [a,b,c]=[1,2,3];
+        console.log(a,b,c);
+        const [z,,h]=[1,2,3];
+        console.log(a,c);
+        //对象的解构:是以属性的名称为匹配条件
+        const obj={name:'张三',age:18,children:{name1:'李四',age:7}}
+        const {name,age,children:{name1}}=obj //多层嵌套解构
+        console.log(name);
+        console.log(age);
+        console.log(name1);
+    </script>
+</body>
+</html>
