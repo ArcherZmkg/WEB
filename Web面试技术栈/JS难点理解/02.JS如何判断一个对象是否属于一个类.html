@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //  JS如何判断一个对象是否属于一个类
+        //  类本身指向就是构造函数，类的数据类型就是函数
+        function Person(name){
+            this.name=name
+        }
+        var obj = new Person('张三');
+        // instanceof:判断构造函数的prototype属性是否出现在对象的原型链的任何位置
+        console.log(obj instanceof Person);
+        var obj1={}
+        console.log(obj1 instanceof Person);
+        //  对象的属性constructor来判断，指向该对象的构造函数
+        console.log(obj.__proto__.constructor);
+        obj.__proto__.constructor=Array;
+        console.log(obj.__proto__.constructor);
+    </script>
+</body>
+</html>

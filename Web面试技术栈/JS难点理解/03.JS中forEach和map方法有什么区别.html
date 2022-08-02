@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //  JS中forEach和map方法有什么区别
+        //  遍历数组
+        //  不会更改原数组
+        var arr=[1,2,3,4,5,6]
+        var result0=arr.forEach((item,index,arr)=>{
+            console.log(item);//数组遍历值
+            console.log(index);//数组的索引值
+            console.log(arr);//数组本身
+            item*=2//通过item修改不会修改原数组
+            arr[0]=10//通过arr数组本身修改会修改原数组
+        })
+        console.log(arr);
+        var result=arr.map((item,index,arr)=>{
+            console.log(item);//数组遍历值
+            console.log(index);//数组的索引值
+            console.log(arr);//数组本身
+            item*=2
+            arr[0]=10
+            return index*2//返回了一个新的数组
+        })
+        console.log(arr);
+        console.log(result);
+        console.log(result0);
+        //区别:map会分配内存空间来存储新数组，并且返回出来，forEach不会返回执行结果，返回undefined
+    </script>
+</body>
+</html>

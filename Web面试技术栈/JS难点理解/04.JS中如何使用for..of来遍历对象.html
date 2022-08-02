@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中如何使用for..of来遍历对象
+        //for..of是允许遍历一个含有iterator接口的数据结构(数组、对象等)并且返回各项的值
+        //需要遍历的对象是类数组对象，使用数组的Array.from转为数组
+        var obj={
+            0:1,
+            1:2,
+            2:3,
+            length:3
+        }
+        obj=Array.from(obj)
+        for (let value of obj){
+            console.log(value);
+        }
+        //需要遍历的对象不是类数组，给对象添加一个Symbol.iterator属性，指向迭代器
+
+        //iterator遍历过程
+        //1.创建一个指针对象，指向当前数据结构的起始位置
+        //2.第一次调用指针对象的next方法，可以将指针指向数据结构的第一个成员
+        //3.第二次调用指针对象的next方法，指针就指向数据结构的第二个成员
+        //4.不断调用指针对象的next方法，直到它指向数据结构的结束位置
+        //每一次调用next方法，都会返回数据结构当前成员的信息
+        //value:当前成员的值
+        //done:是一个布尔值，表示遍历是否结束
+        var person={
+            name:'张三',
+            age:18,
+            height:188,
+            weight:120,
+            sex:'男'
+        }
+        person[Symbol.iterator]=function(){
+            //  拿到对象中所有key值
+            var keys=Object.keys(this)
+            //  定义数组的下标值
+            var index=0
+            return{
+                next(){
+                    if (index<keys.length){
+                        return {value:person[keys[index++]],done:false}
+                    }else{
+                        return{value:undefined,done:true}
+                    }
+                    
+                }
+            }
+        }
+        for (let value of person){
+            console.log(value);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS中数组的遍历方法有哪些
+        var arr=[1,2,3,4,5]
+        //forEach:不会改变原数组，没有返回值
+        console.log('-------forEach-------');
+        //三个参数，遍历值，索引值，数组本身
+        arr.forEach((item,index,arr)=>{
+            console.log(item);
+            console.log(index);
+            console.log(arr);
+        })
+        //map:不会改变原数组，有返回值
+        console.log('--------map---------');
+        let resultMap=arr.map((item,index,arr)=>{
+            console.log(item);
+            console.log(index);
+            console.log(arr);
+            return index*2
+        })
+        console.log(resultMap);
+        //filter:过滤数组，有返回值，返回包含符合条件的元素的数组
+        console.log('-------filter-------');
+        let fil=arr.filter((item)=>{
+            console.log(item);
+            return item>3
+        })
+        console.log(fil);
+        //for...of:返回数组的元素，对象的属性值，不能遍历普通的对象
+        console.log('.......for....of-------')
+        for(value of arr){
+            console.log(value);
+        }
+        //reduce:接收一个函数，作为一个累加器
+        //函数有两个参数(常用两个，一共四个)，第一个计算之后的返回值或者初始值，第二个为当前的元素
+        console.log('--------reduce--------');
+        let resultReduce=arr.reduce((pre,item)=>{
+            console.log('pre',pre);
+            console.log('item',item);
+            return pre+item
+        },0)
+        console.log(resultReduce);
+    </script>
+</body>
+</html>
