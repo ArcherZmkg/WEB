@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //  JS中对原型链的理解
+        function Fun(){
+            this.test=function(){
+                console.log('test');
+            }
+        }
+        Fun.prototype.test2=function(){
+            console.log('test2');
+        }
+        var fun = new Fun();
+        fun.test();
+        fun.test2();
+        console.log(fun.toString());
+        // console.log(fun.test3());
+        // console.log(Fun instanceof Object);
+    </script>
+</body>
+</html>

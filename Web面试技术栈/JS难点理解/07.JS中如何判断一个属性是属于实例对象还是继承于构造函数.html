@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //  JS中如何判断一个属性是属于实例对象还是继承于构造函数
+        //  通过hasOwnProperty():检测一个属性是否属于自身对象，还是继承于原型链上的
+        function Person(name,age){
+            this.name=name;
+            this.age=age;
+        }
+        Person.prototype.sex="男";
+        var p=new Person("张三",18);
+        p.phone=12345;
+        p.height=180;
+        console.log(p);
+        console.log(p.hasOwnProperty('phone'));//true
+        console.log(p.hasOwnProperty('sex'));//false
+        for(let i in p){
+            if (p.hasOwnProperty(i)){
+                console.log(p[i]);
+            }
+        }
+    </script>
+</body>
+</html>

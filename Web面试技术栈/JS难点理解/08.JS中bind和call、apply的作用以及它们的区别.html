@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //  JS中bind和call、apply的作用以及它们的区别
+        //  作用:改变函数运行时this的指向
+        var uname='张三';
+        var obj={
+            uname:'李四',
+            say:function(){
+                console.log(this.uname);
+            }
+        }
+        obj.say();//李四
+        setTimeout(obj.say,0);//张三
+        setTimeout(obj.say.bind(obj),0)//李四
+        //  区别
+        //  apply:两个参数，第一个是this指向，第二个是函数接收的参数，以数组的形式传入
+        function fun(...argus){
+            console.log(this);
+            console.log(...argus);
+        }
+        var person={
+            myname:'王五'
+        }
+        fun.apply(person,[1,2,3,4])//传入的参数必须是一个数组
+        fun(1,2,3,4)
+        //如果第一个参数为null或者undefined，this默认指向window
+        fun.apply(null,[1,2])
+        fun.apply(undefined,[1,2])
+        //call:两个参数,第一个是this指向,第二个是参数列表
+        console.log('-------------------');
+        fun.call(person,1,2,3,4)
+        //call和apply改变this指向原函数立即执行，是临时改变的this指向一次
+        fun(1,2,3,4)
+        //bind:两个参数,第一个是this指向,第二个是参数列表
+        //改变this指向后不会立即执行，返回一个永久改变this指向的函数
+        console.log('-------------------');
+        let bindFun=fun.bind(person)
+        bindFun(1,2,3,4);
+        //区别:
+        /*
+            三者第一个参数都是this指向，apply第二个参数必须是一个数组
+        */
+    </script>
+</body>
+</html>

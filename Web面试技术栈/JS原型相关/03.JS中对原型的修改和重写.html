@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <Script>
+        //JS中对原型的修改和重写
+        function Person(name){
+            this.name=name
+        }
+
+        //修改原型
+        Person.prototype.getName=function(){
+            console.log(this.name);
+        }
+        var p = new Person('www');
+        console.log(p.__proto__ === Person.prototype);//true
+        console.log(p.__proto__ === p.constructor.prototype);//true
+        //重写原型
+        Person.prototype={
+            getName:function(){
+                console.log(this.name);
+            }
+        }
+        //直接给Person的原型对象用对象进行赋值时，p的构造函数指向构造函数Object
+        var p=new Person("张三");//p(this).__proto__=Person.prototype
+        console.log(p.__proto__===Person.prototype);
+        console.log(p.constructor);
+        console.log(p.__proto__===p.constructor.prototype);//false
+        p.constructor=Person;
+        console.log(p.__proto__===p.constructor.prototype);
+    </Script>
+</body>
+</html>
