@@ -17,7 +17,7 @@
             background-color: cadetblue;
         }
     </style>
-    <script src="./vue.js"></script>
+    <script src="../vue.js"></script>
 </head>
 <body>
     <div id="root">
@@ -27,6 +27,8 @@
         <div class="basic" :class='arr'>{{name}}</div><br></br>
         <!-- 绑定class样式--对象写法，适用于：要绑定的样式个数确定、名字也确定、但要动态决定用不用 -->
         <div class="basic" :class="classObj">{{name}}</div>
+
+        <div class="basic" :style="styleObj">{{name}}</div>
     </div>
 </body>
 <script>
@@ -40,6 +42,9 @@
             classObj:{
                 happy:false,
                 normal:false
+            },
+            styleObj:{
+                fontSize:'40px'
             }
         },
         methods:{
