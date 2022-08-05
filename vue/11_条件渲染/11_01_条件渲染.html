@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件渲染</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <!-- 
+        条件渲染:
+            1.v-if:
+                写法:
+                    (1).v-if="表达式"
+                    (2).v-else-if="表达式"
+                    (3).v-else
+                适用于:切换频率比较低的场景
+                特点:不展示的DOM元素直接被移除
+                注意:v-if可以和v-else-if\v-else一起使用，但要求结构不能被打断
+            2.v-show:
+                写法:v-show="表达式"
+                适用于:切换频率较高的场景
+                特点:不展示的DOM元素未被移除，而是仅仅使用样式display:none隐藏掉
+            3.备注:使用v-if时，元素可能无法获取到，而使用v-show一定可以获取到
+
+     -->
+    <div class="main">
+        <!-- 使用v-show做条件渲染 -->
+        <h2 v-show="a">欢迎来到尚硅谷</h2>
+        <!-- 使用v-if做条件渲染 -->
+        <h2 v-if="b==1">angular</h2>
+        <!-- v-else和v-else-if使用 -->
+        <h2 v-else-if="b==2">react</h2>
+        <h2 v-else-if="b==3">vue</h2>
+        <h2 v-else>哈哈</h2>
+        <button @click="check">点我显示/隐藏</button>
+        <button @click="plus">点我+1</button>
+        <!-- templat可以在不改变文档结构下对内部结构统一用v-if控制切换和显示,无法使用v-show，强行使用v-show会使作用失效 -->
+        <template  v-if="b==1">
+            <div>
+                你好
+            </div>
+            <div>
+                尚硅谷
+            </div>
+            <div>
+                北京
+            </div>
+        </template>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    const vm=new Vue({
+        el:'.main',
+        data:{
+            a:false,
+            b:0
+        },
+        methods: {
+            check(){
+                console.log(this.a);
+                this.a = !this.a;
+            },
+            plus(){
+                this.b=this.b+1
+            }
+        },
+       
+    })
+</script>
+</html>

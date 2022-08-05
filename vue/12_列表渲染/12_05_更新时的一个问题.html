@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新时的一些问题</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="main">
+        <h2>人员列表</h2>
+        <button @click="updateMDM">更新马东梅信息</button>
+        <ul>
+            <li v-for="(item,index) in person" :key="item.id">
+                {{item.id}}{{item.name}}-{{item.age}}-{{item.sex}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    const vm=new Vue({
+        el:'.main',
+        data:{
+            person:[
+                {id:'001',name:'马冬梅',age:18,sex:'女'},
+                {id:'002',name:'周冬雨',age:19,sex:'女'},
+                {id:'003',name:'周杰伦',age:31,sex:'男'},
+                {id:'004',name:'温兆伦',age:15,sex:'男'}
+            ],
+         
+        },
+        methods: {
+            updateMDM(){
+                // this.person[0].name='马老师',
+                // this.person[0].age=110
+                this.person[0]={id:'001',name:'马老师',age:52,sex:'男'}
+                //整体替换时vue监测不到
+            }
+        },
+
+    })
+</script>
+</html>

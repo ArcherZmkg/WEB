@@ -27,8 +27,11 @@
         <div class="basic" :class='arr'>{{name}}</div><br></br>
         <!-- 绑定class样式--对象写法，适用于：要绑定的样式个数确定、名字也确定、但要动态决定用不用 -->
         <div class="basic" :class="classObj">{{name}}</div>
-
+        <!-- 绑定style样式的对象写法 -->
         <div class="basic" :style="styleObj">{{name}}</div>
+        <!-- 绑定style样式的数组写法 -->
+        <div class="basic" :style="styleArr">{{name}}</div>
+
     </div>
 </body>
 <script>
@@ -45,7 +48,16 @@
             },
             styleObj:{
                 fontSize:'40px'
-            }
+            },
+            styleArr:[
+                {
+                    fontSize:'40px',
+                    color:'blue',
+                },
+                {   
+                    backgroundColor:"gray"
+                }
+            ]
         },
         methods:{
             changeMood(){
