@@ -9,8 +9,8 @@
 </head>
 <body>
     <div class="main">
-        <h2>学校名称:{{data.name}}</h2>
-        <h2>学校地址:{{data.address}}</h2>
+        <h2>学校名称:</h2>
+        <h2>学校地址:</h2>
     </div>
 </body>
 <script>
@@ -20,6 +20,12 @@
     }
     //创建一个监视的实例对象,用于监视data中属性的变化
     const obs = new Observer(data)
+    console.log(obs);
+
+    //准备一个vm实例对象
+    let vm={}
+    vm._data=data=obs
+    
     function Observer(obj){
         //汇总对象中所有的属性形成一个数组
         const keys = Object.keys(obj)
