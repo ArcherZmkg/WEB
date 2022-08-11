@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分析生命周期</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="main">
+        <h1>当前n的值为{{n}}</h1>
+        <h2 v-text="n"></h2>
+        <button @click="add">点我n+1</button>
+        <button @click="destory">点我销毁</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    new Vue({
+        el:".main",
+        data:{
+            n:1
+        },
+        methods: {
+            add(){
+                this.n++
+            },
+            destory(){
+                console.log('destory');
+                this.$destory();
+            }
+        },
+        beforeCreate() {
+            console.log('beforeCreate');
+            console.log(this);
+        },
+        created() {
+            //此处可以访问到data,methods,数据代理
+            console.log('Created');
+            console.log(this);
+        },
+        beforeMount() {
+            //此处仅有虚拟DOM
+            console.log('beforeMount');
+            console.log(this);
+        },
+        mounted() {
+            //此处已经转化为真实DOM
+            console.log('mounted');
+        },
+        beforeUpdate() {
+            //数据是新的,但页面是旧的,即页面尚未和数据保持同步
+            console.log('beforeUpdate');
+        },
+        updated() {
+            //数据是新的,页面也是新的,页面和数据保持同步
+        },
+    })
+</script>
+</html>
