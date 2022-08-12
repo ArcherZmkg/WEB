@@ -12,7 +12,7 @@
         <h1>当前n的值为{{n}}</h1>
         <h2 v-text="n"></h2>
         <button @click="add">点我n+1</button>
-        <button @click="destory">点我销毁</button>
+        <button @click="destroy">点我销毁</button>
     </div>
 </body>
 <script>
@@ -24,11 +24,17 @@
         },
         methods: {
             add(){
-                this.n++
+                console.log('n++');
+                this.n++ 
             },
-            destory(){
-                console.log('destory');
-                this.$destory();
+            destroy(){
+                console.log('destroy');
+                this.$destroy();
+            }
+        },
+        watch:{
+            n(newval){
+                console.log(newval,'.....');
             }
         },
         beforeCreate() {
@@ -55,6 +61,14 @@
         },
         updated() {
             //数据是新的,页面也是新的,页面和数据保持同步
+            console.log('updated');
+        },
+        beforeDestroy() {
+            console.log('beforeDestroy');
+            console.log(this.n);
+        },
+        destroyed() {
+            console.log('Destroy');
         },
     })
 </script>
