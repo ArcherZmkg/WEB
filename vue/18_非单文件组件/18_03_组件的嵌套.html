@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件嵌套</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div class="main">
+        <app></app>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false
+    //定义school的子组件student
+    const student = Vue.extend({
+        template:`
+            <div>
+                <h2>{{studentName}}</h2>
+                <h2>{{studentAge}}</h2>
+            </div>
+        `,
+        data(){
+            return {
+                studentName:'张三',
+                studentAge:18
+            }
+        }
+    })
+
+    //定义school组件
+    const school=Vue.extend({
+        name:'school',
+        template:`
+            <div>
+                <h2>{{schoolName}}</h2>
+                <h2>{{schoolAddress}}</h2>
+                <student></student>
+            </div>
+        `,
+        data(){
+            return{
+                schoolName:'北京大学',
+                schoolAddress:'朝阳区'
+            }
+        },
+        components:{
+            student
+        }
+    })
+
+   
+
+    const hello = Vue.extend({
+        template:`
+            <div>
+                <h1>你好!</h1>
+            </div>
+        `
+    })
+    
+    const app = Vue.extend({
+        template:`
+            <div>
+                <hello></hello>
+                <school></school>
+            </div>
+        `,
+        components:{
+            hello:hello,
+            school:school
+        }
+    })
+
+
+    new Vue({
+        el:'.main',
+        components:{
+            app:app
+        }
+    })
+</script>
+</html>

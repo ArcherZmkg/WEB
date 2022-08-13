@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个重要的内置关系</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <!-- 
+        1.一个重要的内置关系:VueComponent.prototype.__proto__ === Vue.prototype
+        2.为什么要有这个关系:让组件实例对象(vc)可以访问到Vue原型上的属性、方法
+     -->
+    <div></div>
+</body>
+<script>
+    Vue.config.productionTip = false
+//     function Demo(){
+//         this.a=1
+//         this.b=2
+//     }
+//     const d = new Demo()
+//     console.log(d.__proto__,Demo.prototype);
+
+//     //程序员通过显示原型属性操作原型对象，追加一个x属性，值为99
+//     Demo.prototype.x=99
+//     console.log(d);
+</script>
+</html>
