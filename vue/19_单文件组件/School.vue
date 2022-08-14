@@ -9,7 +9,7 @@
 
 <script>
 //组件交互相关代码(数据、方法等等)
-const school = Vue.extend({
+const School = Vue.extend({
     name:'School',
     data(){
         return{
@@ -23,7 +23,7 @@ const school = Vue.extend({
         }
     },
 })
-export default school
+export default School
 </script>
 
 <style>
