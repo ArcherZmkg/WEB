@@ -5,8 +5,14 @@
 import Vue from 'vue'
 //引入App组件，它是所有组件的父组件
 import App from './App.vue'
+//全局混合
+import {a,b} from './mixin'
+Vue.mixin(a)
+Vue.mixin(b)
+
 //关闭Vue生产提示
 Vue.config.productionTip = false
+
 /**
  * 关于不同版本的Vue:
  * 1.vue.js与vue.runtime.xxx.js的区别:
