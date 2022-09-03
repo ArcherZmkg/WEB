@@ -4,9 +4,9 @@
       <hr>
       <div>
         <!-- Vue中借助router-link实现路由的切换 -->
-        <router-link :to='{name:"guanyu"}'>About</router-link>
+        <router-link :to='{name:"guanyu"}' replace>About</router-link>
         <br>
-        <router-link to='/home'>home</router-link>
+        <router-link to='/home' replace>home</router-link>
       </div>
       <router-view></router-view>
   </div>
