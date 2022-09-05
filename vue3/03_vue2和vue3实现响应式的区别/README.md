@@ -15,7 +15,7 @@ Vue.delete(this.obj,'key');     删除一个对象属性
         通过Proxy(代理):拦截对象中任意属性的变化,包括:属性值的读写、属性的添加、属性的删除等。
         通过Reflect(反射):对源对象的属性进行操作。
         MDN文档中描述的Proxy与Reflect:
-            Proxy:https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy<br>
+            Proxy:https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy
             
             Reflect:https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect
         
