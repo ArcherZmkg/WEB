@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let person = {
+            name:'张三',
+            age:18
+        }
+
+        //模拟vue2中实现响应式
+        //#region
+        // let p = {}
+        // Object.defineProperty(p,'name',{
+        //     configurable:true,
+        //     get(){
+        //         return person.name
+        //     },
+        //     set(value){
+        //         person.name = value
+        //     }
+        // })
+
+        //模拟Vue3中实现响应式(p是代理数据,person是源数据)
+        //#region
+        const p = new Proxy(person,{
+            //  有人读取p的某个属性时调用
+            get(target,propName){
+                console.log(`有人读取了p${propName}属性`)
+                return Reflect.get(target,propName)
+            },
+            //  有人修改p的某个属性、或给p追加某个属性时调用
+            set(target,propName,value){
+                console.log(`有人修改了p身上的${propName}属性`);
+                Reflect.set(target,propName,value)
+            },
+            deleteProperty(target,propName){
+                console.log(`有人删除了p身上的${propName}属性,我要去更新界面了`);
+                return Reflect.deleteProperty(target,propName)
+            },
+            
+        })
+        
+        let obj ={a:1,b:2};
+        //  映射修改和删除对象属性
+        Reflect.set(obj,'a','李四');
+        Reflect.deleteProperty(obj,'b');
+
+        //  通过Objcet.defineProperty去操作,会报错，导致线程走不下去
+        // const y1 = Reflect.defineProperty(obj,'c',{
+        //     get(){
+        //         return 4
+        //     }
+        // })
+        // const y2 = Reflect.defineProperty(obj,'c',{
+        //     get(){
+        //         return 3
+        //     }
+        // })
+
+        //  通过Reflect.defineProperty去操作,不会报错，x2值为false即重复定义失败
+        const x1 = Reflect.defineProperty(obj,'c',{
+            get(){
+                return 4
+            }
+        })
+        const x2 = Reflect.defineProperty(obj,'c',{
+            get(){
+                return 3
+            }
+        })
+        console.log(x1,x2,'@@@');
+    </script>
+</body>
+</html>
