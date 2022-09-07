@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import {ref,watch,reactive} from "vue";
+import {ref,watch,reactive,watchEffect} from "vue";
 export default {
   name:'Demo',
   setup(){
     //  数据
     let sum = ref(0);
     let msg = ref("你好啊");
-    let person = ref({
+    let person = reactive({
         name:'张三',
         age:19,
         job:{
@@ -30,15 +30,12 @@ export default {
     })
     //  监视
 
-    //  不能.value,无法监视基本数据,只能监视数据对象
-    watch(sum,(nv,ov)=>{
-      console.log('sum值变化了',nv,ov);
+    watchEffect(()=>{
+      const x1 = sum.value
+      const y1 = person.job.a
+      console.log('watchEffect所指定回调执行了');
     })
-
-    //  监视的不是ref所定义的person数据了,而是ref定义的person里面借助proxy代理的value数据(即reactive定义的)
-    watch(person.value,(nv,ov)=>{
-      console.log('person值变化',newValue,oldValue);
-    })
+    
     return {
       sum,
       msg,

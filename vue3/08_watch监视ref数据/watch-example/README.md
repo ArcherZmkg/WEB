@@ -24,8 +24,13 @@ yarn lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
-## watch函数
-    与Vue2.x中watch配置功能一致
-    两个小坑:
-        监视reactive定义的响应式数据时,oldValue无法正确获取,强制开启了深度监视(deep配置失效)
-        监视reactive定义的响应式数据中的某个属性时:deep配置有效
+## watchEffect函数
+    watch的套路是:既要指明监视的属性,也要指明监视的回调。
+    watchEffect的套路是:不指明监视哪个属性,监视的回调中用到哪个属性,那就监视哪个属性。
+    watchEffect有点像computed:
+        但computed注重的计算出来的值(回调函数的返回值),所以必须要写返回值.
+        而watchEffect更注重的是过程(回调函数的函数体),所以不用写返回值。
+    watchEffect(()=>{
+        const x1 = sum.value
+        //  此处sum.value的值只要发生变化就能被watchEffect监视到,因为在watchEffect的回调函数中用到了sum.value
+    })
