@@ -1,14 +1,21 @@
 <template>
   <div>
     <button class="small-success-btn">点我看一下</button>
-    <div id="main">
+    <!-- <div id="main">
 
+    </div> -->
+    <div class="box">
+      <button >haha</button>
+      <span class="icon"></span>
     </div>
+    <Main>
+      
+    </Main>
   </div>
 </template>
 
 <script setup>
-
+  import Main from '../components/main.vue'
 </script>
 
 <style lang="less" scoped>
@@ -20,10 +27,8 @@
 
 @smallBtn:{
   width:@width;
-  // height:@width/5;
   cursor: pointer;
   border:none;
-  // border-radius: @width/40;
 }
 
 @btn-hover:{
@@ -58,10 +63,26 @@
   @img-df();
 }
 
-#main{
-  width:500px;
-  height:500px;
-  display: flex;
-  background-image: url("@{images}/back.jpg");
+// #main{
+//   width:500px;
+//   height:500px;
+//   display: flex;
+//   background-image: url("@{images}/back.jpg");
+// }
+.box{
+  width: 600px;
+  height: 600px;
+  border:5px solid #ccc;
+  button{
+    @smallBtn();
+    margin:0 auto;
+    display: block;
+  }
+}
+
+@sb:'smallButton';//变量定义
+
+.icon:after{  //伪类
+  content:@sb;  //提示文字
 }
 </style>
