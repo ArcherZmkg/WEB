@@ -12,6 +12,7 @@
     <!-- <div id="warh">
     </div> -->
     <div id="main">hello</div>
+    <div id="bosx">hello</div>
   </div>
 </template>
 
@@ -137,13 +138,30 @@ a{
     } 
   }
 
-  
+  /**定义方法传不确定的参数 */
+  .boxShadow(...){
+    box-shadow: @arguments;
+  }
 
-  #main{
-    #cvcc > .border(120px,#999,solid);
+  .textShadow(...){
+    text-shadow: @arguments;
+  }
+
+  #bosx{
+    .boxShadow(inset,0,0,10px,#333);
+    .textShadow(10px, 10px, 10px,yellow);
     width: 200px;
     height: 200px;
-    #cvcc > .bgs(#658);
-    #cvcc > .font(105px);
+  }
+  #main{
+    // #cvcc > .border(120px,#999,solid);
+    width: 200px;
+    height: 200px;
+    // #cvcc > .bgs(#658);
+    // #cvcc > .font(105px);
+
+    // .boxShadow(0,0,10px,#333);
+    .boxShadow(inset,0,0,10px,#333);
+
   }
 </style>

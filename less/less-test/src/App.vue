@@ -1,10 +1,20 @@
 <script setup>
 // import HelloWorld from './components/HelloWorld.vue'
-import Main from './components/main.vue'
+// import Main from './components/main.vue'
+// import Gener from './components/gener.vue'
+// import New from './components/new.vue'
+// import Animate from './components/animate.vue'
+// import Link from './components/link.vue'
+import Daoless from './components/Daoless.vue';
 </script>
 
 <template>
-  <Main/>
+  <!-- <Main/> -->
+  <!-- <gener></gener> -->
+  <!-- <New></New> -->
+  <!-- <Animate></Animate> -->
+  <!-- <Link></Link> -->
+  <Daoless></Daoless>
 </template>
 
 <style scoped>
