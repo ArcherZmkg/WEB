@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX get 请求</title>
+</head>
+<body>
+    <button>点击发送请求</button>
+    <div id="result"></div>
+    <script>
+        //获取button元素
+        const btn = document.getElementsByTagName('button')[0];
+        const result = document.getElementById('result');
+        //绑定事件
+        btn.onclick = function(){
+            //绑定事件
+            console.log('test');
+                //1.创建对象
+                const xhr = new XMLHttpRequest();
+                //2.初始化 设置请求方法和url
+                xhr.open('GET','http://127.0.0.1:8001/server?a=100&b=300')
+                //3.发送
+                xhr.send();
+                //4.事件绑定 处理服务端返回的结果
+                // on when 当...时候
+                // readyState 是xhr对象中的属性,表示状态0 1 2 3 4
+                // 0：状态为未打开，表示open()方法未调用、
+                // 1：open()已经调用，send()未调用，还未发送请求、
+                // 2：send()已经调用，请求已经发送，响应头和响应状态已经返回、
+                // 3：响应体正在下载，responseText(接收服务端响应的结果)获取到部分的数据、
+                // 4：整个请求过程已经完毕
+                // change 改变
+                xhr.onreadystatechange = function(){
+                    //判断 (表明服务端返回了所有的结果)
+                    if (xhr.readyState === 4){
+                        //判断响应状态码200 404  403 401 500
+                        //2xx 成功
+                        if (xhr.status>=200 && xhr.status<300){
+                            //处理结果 行 头 空行 体
+                            //1.响应行
+                            console.log(xhr.status);//状态码（200）
+                            console.log(xhr.statusText);//状态字符串（OK）
+                            console.log(xhr.getAllResponseHeaders());//所有响应头
+                            console.log(xhr.response);//响应体
+                            //设置result文本
+                            result.innerHTML = xhr.response;
+                        }
+                    }
+                }
+        }
+    </script>
+    <style>
+        #result{
+            width:200px;
+            height:200px;
+            background-color: aquamarine;
+        }
+    </style>
+</body>
+</html>
