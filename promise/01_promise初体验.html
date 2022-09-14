@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本使用</title>
+    <link rel="stylesheet/less" type="text/css" href="styles.less" />
+    <style lang="less">
+        .page-header{
+            font-family: '华文宋体' ;
+            font-weight:600;
+            color:#999;
+        }
+        .btn-primary{
+            border-radius: 5px;
+            width:200px;
+            height:50px;
+            font-family: '华文宋体';
+            font-size: 20px;
+            font-weight:600;
+            cursor: pointer;
+            background-color: rgba(23, 117, 194, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="page-header">Promise 初体验</h2>
+        <button class="btn-primary">点击抽奖</button>
+    </div>
+    <script>
+        //生成随机数
+        function random(m,n){
+            // console.log(Math.random());
+            return Math.ceil(Math.random()*(n-m+1))+m-1;
+        }
+        /**
+         * 点击按钮,2s后显示是否中奖(30概率中奖)
+         * 若中奖弹出 恭喜您已经中奖
+         * 若中奖未弹出 再接再厉
+        */
+       const btn  = document.querySelector('.btn-primary');
+       btn.onclick=function(){
+            // let time;
+            // if (time){
+            //     clearTimeout(time);
+            // }
+            // setTimeout(()=>{
+            //     //  获取1-100的一个随机数
+            //     let n = rand(1,100);
+            //     //判断
+            //     if (n<=30){
+            //         alert('恭喜您已中奖')
+            //     }
+            //     else{
+            //         alert('再接再厉')
+            //     }
+            // },1000);
+
+            //Promise实现
+            //  reslove 解决    函数类型的数据
+            //  reject  拒绝    函数类型的数据
+            const p = new Promise((reslove,reject)=>{
+                let time;
+                if (time){
+                    clearTimeout(time);
+                }
+                setTimeout(()=>{
+                    //  获取1-100的一个随机数
+                    let n = random(1,100);
+                    //判断
+                    if (n<=30){
+                        reslove(n);  //  将promise对象的状态设置为[成功]
+                        
+                    }
+                    else{
+                        reject('error!');   //  将promise对象的状态设置为[失败]
+                    }
+                },1000);
+            })
+            p.then((value)=>{
+                alert(`恭喜您已中奖,您的中奖数字是${value}`)
+            },(reason)=>{
+                alert('再接再厉')
+                console.log(reason);
+            })
+            
+       }
+    </script>
+</body>
+</html>

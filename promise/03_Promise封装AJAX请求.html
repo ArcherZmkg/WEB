@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise封装AJAX请求</title>
+    <style lang="less">
+        .page-header{
+            font-family: '华文宋体' ;
+            font-weight:900;
+            color:rgba(0, 0, 0, 0.8);
+        }
+        .btn-primary{
+            border-radius: 5px;
+            width:200px;
+            height:50px;
+            font-family: '华文宋体';
+            font-size: 20px;
+            font-weight:600;
+            cursor: pointer;
+            background-color: rgba(23, 117, 194, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="page-header">Promise 封装AJAX操作</h2>
+        <hr>
+        <button class="btn-primary">点击发送AJAX</button>
+    </div>
+    <script>
+        const btn = document.querySelector('button');
+        btn.onclick  = function(){
+            const p = new Promise((resolve,reject)=>{
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET','http://127.0.0.1:8000/getJoke');
+                xhr.send();
+                xhr.onreadystatechange = function(){
+                    if (xhr.readyState=== 4){
+                        if (xhr.status>=200 && xhr.status<300){
+                            resolve(xhr.response);
+                        }
+                        else{
+                            reject(xhr.status)
+                        }
+                    }
+                }
+            })
+            p.then((value)=>{
+                console.log(value);
+            },(reason)=>{
+                console.warn(reason);
+            })
+
+        }
+    </script>
+</body>
+</html>
