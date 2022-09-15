@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <title>Promise关键问题-Promise指定多个回调</title>
+</head>
+<body>
+    <script>
+        //  当Promise改编为对应状态时都会调用
+        let p  = new Promise((resolve,reject)=>{
+            resolve('OK');
+        });
+
+        //  指定回调 -1
+        p.then(value=>{
+            console.log(value);
+        })
+
+        //  指定回调-2
+        p.then(value=>{
+            // alert(value);
+            console.log(value,'222');
+        })
+    </script>
+</body>
+</html>

@@ -4,7 +4,12 @@ const app = express();
 app.use(CORS());
 
 app.get('/getJoke',(request,response)=>{
-    response.send('Hello Promise')
+    const data = {
+        name:'joker'
+    }
+    let str = JSON.stringify(data)
+    // response.send('Hello Promise')
+    response.send(str);
 })
 
 app.listen(8000,()=>{

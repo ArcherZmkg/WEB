@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中断Promise链</title>
+</head>
+<body>
+    <script>
+        let  p = new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve('OK');
+            },1000)
+        })
+        .then(value=>{
+            //  要想中断Promise链有且只有一个方式:返回一个pending状态的promise
+            return new Promise(()=>{});
+        })
+        .then(value=>console.log('2'))
+        .then(value=>console.log('3'))
+    </script>
+</body>
+</html>
