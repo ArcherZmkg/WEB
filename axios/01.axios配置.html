@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+<body>
+    <h4>点击下列按钮</h4>
+    <hr>
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-success">发送GET请求</button>
+        <button type="button" class="btn btn-danger">发送POST请求</button>
+        <button type="button" class="btn btn-warning">发送PUT请求</button>
+        <button type="button" class="btn btn-primary">发送DELETE请求</button>
+      </div>
+    <script>
+        //获取按钮
+        const btns = document.querySelectorAll('button');
+
+        //读取数据
+        btns[0].onclick = function(){
+            axios({
+                method:'GET',
+                url:'http://127.0.0.1:3000/posts/2'
+            }).then((result) => {
+                console.log(result);
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+
+        //新增数据
+        btns[1].onclick = function(){
+            axios({
+                method:'POST',
+                url:'http://127.0.0.1:3000/posts',
+                //设置请求体
+                data:{
+                    title:"今天",
+                    author:'xxx'
+                }
+            }).then((result) => {
+                console.log(result);
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+
+        //更新数据
+        btns[2].onclick = function(){
+            axios({
+                method:'PUT',
+                url:'http://127.0.0.1:3000/posts/3',
+                //设置请求体
+                data:{
+                    title:"明天",
+                    author:'hhhh '
+                }
+            }).then((result) => {
+                console.log(result);
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+
+        //删除数据
+        btns[3].onclick = function(){
+            axios({
+                method:'delete',
+                url:'http://127.0.0.1:3000/posts/3',
+            }).then((result) => {
+                console.log(result);
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+    </script>
+</body>
+</html>

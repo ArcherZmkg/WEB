@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h2 class="page-header">axios取消请求</h2>
+        <button type="button" class="btn btn-success">发送请求</button>
+        <button type="button" class="btn btn-danger">取消请求</button>
+      </div>
+    <script>
+        //获取按钮
+        const btns = document.querySelectorAll('button');
+        //2.声明全局变量
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        console.log("CancelToken:",CancelToken);
+        let cancel = null;
+        btns[0].onclick = function(){
+            if (cancel!=null){
+                source.cancel();
+            }else{
+                axios({
+                    method:'GET',
+                    url:'http://127.0.0.1:3000/posts',
+                    //1.添加配置对象的属性
+                    cancelToken:source.token
+                }).then(response=>{
+                    console.log(response);
+                    cancel = null;
+                }).catch(e=>{
+                    if (axios.isCancel(e)){
+                        console.log('请求被人为取消:',e);
+                    }
+                    else{
+                        console.log('error:',e);
+                    }
+                })
+            }
+            
+        }
+        btns[1].onclick=function(){
+            source.cancel('我就是点了一下取消');
+        }   
+    </script>
+</body>
+</html>
