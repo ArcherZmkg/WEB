@@ -15,3 +15,19 @@
 ##  WebPack开发模式介绍
 *   编译代码，使浏览器能识别运行
 *   代码质量检查，树立代码规范
+
+##  处理JS资源
+*   针对js兼容性处理，我们使用Babel来完成
+*   针对代码格式，我们使用Eslint来完成
+我们先完成Eslint，检测代码格式后，再由Babel做代码兼容性处理
+
+##  Eslint
+*   定义:可组装的JavaScript和JSX(react语法)检查工具。
+*   parserOptions:{},解析选项
+*   rules:具体检查规则
+*   extends:继承其他规则
+
+##  Babel
+*   定义:javascript编译器
+*   主要用于将ES6语法编写的代码转换为向后兼容的js语法，以便能够运行在当前和旧版本的浏览器或其他环境中
+*   多用babel.config.js配置

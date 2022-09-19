@@ -1,0 +1,2 @@
+# 忽略dist文件的eslint语法检查
+dist

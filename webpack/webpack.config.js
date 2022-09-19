@@ -1,4 +1,5 @@
 const path = require("path") //node.js核心模块,用来处理路径问题
+const ESLintPlugin = require('eslint-webpack-plugin');
 module.exports = {
     //入口
     entry:'./src/main.js',
@@ -8,7 +9,10 @@ module.exports = {
         //__dirname nodejs的变量,代表当前文件的文件夹目录
         path:path.resolve(__dirname,'dist'),//绝对路径
         //文件名
-        filename:'main.js',
+        filename:'static/js/main.js',
+        //自动清空上一次打包内容
+        //原理:在打包前,将path整个目录内容清空,再进行打包
+        clean:true
     },
     //加载器
     module:{
@@ -59,11 +63,47 @@ module.exports = {
                     }
                 ]
             },
+            {
+                //需要删除之前的dist文件才能看到效果
+                test: /\.(svg|jpe?g|webp|png|gif)$/,
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                      //小于10KB的图片会转成base64
+                      //优点:减少请求数量 缺点:体积会更大
+                      maxSize: 10 * 1024 // 10kb
+                    },
+                },
+                generator: {
+                    //输出图片名称([hash][ext][query]表示图片命名情况,hash:10表示取hash值前十位)
+                    filename: 'static/images/[hash:10][ext][query]'
+                }
+               
+            },
+            {
+                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+                type: 'asset/resource',
+                generator: {
+                    //输出文件
+                    filename: 'static/media/[hash:10][ext][query]'
+                }
+               
+            },
+            {
+                test: /\.js$/,
+                exclude: /(node_modules)/,  //排除node_modules中的js文件(这些文件不处理)
+                use: {
+                  loader: 'babel-loader'
+                }
+            }
         ]
     },
     //插件
     plugins:[
         //plugin的配置
+        new ESLintPlugin({
+            context:path.resolve(__dirname,'src')
+        })
     ],
     //模式
     mode:'development'

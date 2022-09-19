@@ -6,5 +6,8 @@ import './less/index.less';
 import './sass/index.sass';
 import './stylus/index.styl'
 
+import './css/iconfont.css';
+
+
 console.log(count(2,1));
 console.log(sum(1,2,3,4,5));
