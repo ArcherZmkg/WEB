@@ -9,12 +9,13 @@ module.exports = {
     output:{
         //文件的输出路径
         //__dirname nodejs的变量,代表当前文件的文件夹目录
-        path:path.resolve(__dirname,'dist'),//绝对路径
+        // path:path.resolve(__dirname,'dist'),//绝对路径
+        path:undefined,//开发模式不需要输出,他输出在内存就进行了
         //文件名
         filename:'static/js/main.js',
         //自动清空上一次打包内容
         //原理:在打包前,将path整个目录内容清空,再进行打包
-        clean:true
+        // clean:true   //开发模式不需要输出
     },
     //加载器
     module:{
@@ -104,12 +105,12 @@ module.exports = {
     plugins:[
         //plugin的配置
         new ESLintPlugin({
-            context:path.resolve(__dirname,'src')
+            context:path.resolve(__dirname,'../src')
         }),
         new HtmlWebpackPlugin({
             //  模板,以public/index.html文件创建新的html文件
             //  新的html文件特点:1.结构和原来一致2.自动引入打包的资源
-            template:path.resolve(__dirname,'public/index.html')
+            template:path.resolve(__dirname,'../public/index.html')
         })
     ],
     //开发服务器:不会输出资源,在内存中编译打包
@@ -117,7 +118,7 @@ module.exports = {
         host:'localhost',//启动服务器域名
         open:true,//自动打开浏览器
         static: {
-          directory: path.join(__dirname, 'public'),
+          directory: path.join(__dirname, '../public'),
         },
         // compress: true,  //gzip压缩
         port: 3005,//启动服务器端口号
