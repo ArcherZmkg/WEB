@@ -3,6 +3,34 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 //该插件用于将css提取到单独的文件中,为每个包含 CSS 的 JS 文件创建一个 CSS 文件，并且支持 CSS 和 SourceMaps 的按需加载
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// 这个插件使用 cssnano 优化和压缩 CSS，支持缓存和并发模式下运行
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+//自定义样式配置方法
+function getStyleLoader(pre) {
+    return [
+        MiniCssExtractPlugin.loader,//提取css为单独文件,自动生成 link 标签
+        'css-loader',//将css资源编译成commonJs的模块到js中
+        {
+            //css兼容性配置
+            loader: 'postcss-loader',
+            options: {
+                postcssOptions: {
+                    plugins: [
+                        [
+                            'postcss-preset-env',
+                            {
+                                // 其他选项
+                            },
+                        ],
+                    ],
+                },
+            },
+        },
+        pre
+    ].filter(Boolean);
+}
+
 
 module.exports = {
     //入口
@@ -25,80 +53,58 @@ module.exports = {
         rules: [
             //loader的配置
             {
-                test: /\.css$/, //  只检测.css文件
-                use: [
-                    //执行顺序从右到左(从下到上)
-                    MiniCssExtractPlugin.loader, //   提取css为单独文件,自动生成 link 标签
-                    'css-loader'//将css资源编译成commonJs的模块到js中
-                ]
-            },
-            {
-                test: /\.less$/,
-                //  loader:'xxx'只能使用1个loader
-                use: [{
-                    loader: MiniCssExtractPlugin.loader // 提取css为单独文件,自动生成 link 标签
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                }, {
-                    loader: "less-loader" // compiles Less to CSS
-                }]
-            },
-            {
-                test: /\.sass$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader // 提取css为单独文件,自动生成 link 标签
-                }, {
-                    loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
-                }, {
-                    loader: "sass-loader" // 将 Sass 编译成 CSS
-                }]
-            },
-            {
-                test: /\.styl$/,
-                use: [
+                oneOf: [
                     {
-                        loader: MiniCssExtractPlugin.loader // 提取css为单独文件,自动生成 link 标签
+                        test: /\.css$/, //  只检测.css文件
+                        use: getStyleLoader()
                     },
                     {
-                        loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
+                        test: /\.less$/,
+                        //  loader:'xxx'只能使用1个loader
+                        use: getStyleLoader('less-loader')
                     },
                     {
-                        loader: "stylus-loader", // 将 Stylus 文件编译为 CSS
+                        test: /\.sass$/,
+                        use: getStyleLoader('sass-loader')
+                    },
+                    {
+                        test: /\.styl$/,
+                        use: getStyleLoader('stylus-loader')
+                    },
+                    {
+                        //需要删除之前的dist文件才能看到效果
+                        test: /\.(svg|jpe?g|webp|png|gif)$/,
+                        type: 'asset',
+                        parser: {
+                            dataUrlCondition: {
+                                //小于10KB的图片会转成base64
+                                //优点:减少请求数量 缺点:体积会更大
+                                maxSize: 10 * 1024 // 10kb
+                            },
+                        },
+                        generator: {
+                            //输出图片名称([hash][ext][query]表示图片命名情况,hash:10表示取hash值前十位)
+                            filename: 'static/images/[hash:10][ext][query]'
+                        }
+
+                    },
+                    {
+                        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+                        type: 'asset/resource',
+                        generator: {
+                            //输出文件
+                            filename: 'static/media/[hash:10][ext][query]'
+                        }
+
+                    },
+                    {
+                        test: /\.js$/,
+                        exclude: /(node_modules)/,  //排除node_modules中的js文件(这些文件不处理)
+                        use: {
+                            loader: 'babel-loader'
+                        }
                     }
                 ]
-            },
-            {
-                //需要删除之前的dist文件才能看到效果
-                test: /\.(svg|jpe?g|webp|png|gif)$/,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        //小于10KB的图片会转成base64
-                        //优点:减少请求数量 缺点:体积会更大
-                        maxSize: 10 * 1024 // 10kb
-                    },
-                },
-                generator: {
-                    //输出图片名称([hash][ext][query]表示图片命名情况,hash:10表示取hash值前十位)
-                    filename: 'static/images/[hash:10][ext][query]'
-                }
-
-            },
-            {
-                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
-                type: 'asset/resource',
-                generator: {
-                    //输出文件
-                    filename: 'static/media/[hash:10][ext][query]'
-                }
-
-            },
-            {
-                test: /\.js$/,
-                exclude: /(node_modules)/,  //排除node_modules中的js文件(这些文件不处理)
-                use: {
-                    loader: 'babel-loader'
-                }
             }
         ]
     },
@@ -114,8 +120,9 @@ module.exports = {
             template: path.resolve(__dirname, '../public/index.html')
         }),
         new MiniCssExtractPlugin({
-            filename:('static/css/main.css')
-        })
+            filename: ('static/css/main.css')
+        }),
+        new CssMinimizerPlugin()
     ],
     //开发服务器:不会输出资源,在内存中编译打包
     // devServer: {
@@ -128,5 +135,6 @@ module.exports = {
     //     port: 3005,//启动服务器端口号
     // },
     //模式
-    mode: 'production'
+    mode: 'production',
+    devtool: 'source-map'
 }

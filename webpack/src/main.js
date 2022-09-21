@@ -11,3 +11,9 @@ import './css/iconfont.css';
 
 console.log(count(2,1));
 console.log(sum(1,2,3,4,5));
+
+// if (module.hot){
+//     //判断是否支持热模块替换功能
+//     module.hot.accept('./js/count');
+//     module.hot.accept('./js/sum.js');
+// }

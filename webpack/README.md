@@ -31,3 +31,37 @@
 *   定义:javascript编译器
 *   主要用于将ES6语法编写的代码转换为向后兼容的js语法，以便能够运行在当前和旧版本的浏览器或其他环境中
 *   多用babel.config.js配置
+
+##  devServer
+*   定义:开发服务器,用于开发模式下进行的一个页面的及时更新
+
+##  MiniCssExtractPlugin
+*   定义:该插件用于将css提取到单独的文件中,为每个包含 CSS 的 JS 文件创建一个 CSS 文件，并且支持 CSS 和 SourceMaps 的按需加载
+
+##  postcss-loader
+*   定义:css兼容器，用于对浏览器版本支持的css进行兼容
+*   需要在package.json中通过bowerslist指明需要兼容的浏览器情况
+*   loader默认采用postcss-preset-env预设
+
+##  CssMinimizerWebpackPlugin
+*   这个插件使用cssnano优化和压缩CSS
+
+##  默认生产模式已经进行html和js文件的压缩
+
+##  SourceMap(源代码映射)
+*   SourceMap是一个用来生成源代码与构建后代码一一映射的文件的方案
+
+##  devTool
+*   开发模式下:cheap-module-source-map
+*   优点:打包速度快
+*   缺点:没有列映射
+*   生产环境下:source-map
+*   优点:包含行/列映射
+*   缺点:打包编译速度更慢(由于生产模式会压缩为一行代码所以必须包含列映射)
+
+##  HotModuleReplacement
+*   HMR,热模块替换:在程序运行中,替换、添加或删除模块,而无需重新加载整个页面
+*   vue-loader会自动实现热模块替换功能，常规devServer会默认开启热模块替换(只支持css自动，js需手动，模块热替换仅适用于开发模式)
+
+##  OneOf
+*   每个文件只能被其中一个loader配置处理

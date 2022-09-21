@@ -122,7 +122,9 @@ module.exports = {
         },
         // compress: true,  //gzip压缩
         port: 3005,//启动服务器端口号
+        hot:true
     },
     //模式
-    mode:'development'
+    mode:'development',
+    devtool:'cheap-module-source-map'
 }
