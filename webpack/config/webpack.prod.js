@@ -5,6 +5,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 这个插件使用 cssnano 优化和压缩 CSS，支持缓存和并发模式下运行
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+//  JS代码压缩工具（webpack自带了,无需下载）
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+//图片压缩
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+
+
+//  查看cpu核数
+const os = require('os');
+const threads = os.cpus().length;
+// console.log(threads,"???");
 
 //自定义样式配置方法
 function getStyleLoader(pre) {
@@ -99,10 +109,23 @@ module.exports = {
                     },
                     {
                         test: /\.js$/,
-                        exclude: /(node_modules)/,  //排除node_modules中的js文件(这些文件不处理)
-                        use: {
-                            loader: 'babel-loader'
-                        }
+                        // exclude: /(node_modules)/,  //排除node_modules中的js文件(这些文件不处理)
+                        include: path.resolve(__dirname, '../src'),//只处理src下文件,其他文件不处理
+                        use: [
+                            {
+                                loader: 'thread-loader',
+                                options: {
+                                    works: threads - 1, //进程数量
+                                }
+                            },
+                            {
+                                loader: 'babel-loader',
+                                options: {
+                                    cacheDirectory: true,//开启babel缓存
+                                    cacheCompression: false//关闭缓存文件压缩,节省打包时间
+                                }
+                            }
+                        ]
                     }
                 ]
             }
@@ -112,7 +135,11 @@ module.exports = {
     plugins: [
         //plugin的配置
         new ESLintPlugin({
-            context: path.resolve(__dirname, '../src')
+            context: path.resolve(__dirname, '../src'),
+            exclude: 'node_modules',//默认值
+            cache: true,//开启缓存
+            cacheLocation: path.resolve(__dirname, '../node_modules/.cache/eslintcache'),
+            threads //开启多进程和设置进程数量
         }),
         new HtmlWebpackPlugin({
             //  模板,以public/index.html文件创建新的html文件
@@ -122,8 +149,55 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: ('static/css/main.css')
         }),
-        new CssMinimizerPlugin()
+        //压缩方式写法一
+        // new CssMinimizerPlugin(),
+        // new TerserWebpackPlugin({
+        //     parallel:threads,//开启多进程和设置进程数量
+        // })
     ],
+    //压缩方式写法二(webpack5习惯)
+    optimization: {
+        //  放置压缩操作
+        minimizer: [
+            //  压缩css
+            new CssMinimizerPlugin(),
+            //  压缩js
+            new TerserWebpackPlugin({
+                parallel: threads,//开启多进程和设置进程数量
+            }),
+            //  压缩图片
+            new ImageMinimizerPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminGenerate,
+                    options: {
+                        // Lossless optimization with custom option
+                        // Feel free to experiment with options for better result for you
+                        plugins: [
+                            ["gifsicle", { interlaced: true }],
+                            ["jpegtran", { progressive: true }],
+                            ["optipng", { optimizationLevel: 5 }],
+                            // Svgo configuration here https://github.com/svg/svgo#configuration
+                            [
+                                "svgo",
+                                {
+                                    plugins: [
+                                        "preset-default",
+                                        "prefixIds",
+                                        {
+                                            name:"sortAttrs",
+                                            params:{
+                                                xlmnsOrder:"alphabetical"
+                                            }
+                                        }
+                                    ],
+                                },
+                            ],
+                        ],
+                    },
+                },
+            }),
+        ]
+    },
     //开发服务器:不会输出资源,在内存中编译打包
     // devServer: {
     //     host:'localhost',//启动服务器域名
@@ -134,6 +208,9 @@ module.exports = {
     //     // compress: true,  //gzip压缩
     //     port: 3005,//启动服务器端口号
     // },
+    performance: {
+        maxAssetSize: 1000000,
+    },
     //模式
     mode: 'production',
     devtool: 'source-map'

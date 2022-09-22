@@ -65,3 +65,22 @@
 
 ##  OneOf
 *   每个文件只能被其中一个loader配置处理
+
+##  cache
+*   开启缓存,提升每次更新后的打包速度
+
+##  thread-loader
+*   多线程打包
+*   npm i thread-loader --save-dev
+
+##  babel会为编译的每个文件插入辅助代码,使代码体积过大
+*   npm i @babel/plugin-transform-runtime -D
+*   npm i @babel/runtime
+*   babel-loader处引入该插件plugins: ['@babel-plugin-transform-runtime'] 
+
+##  图片压缩Image Minimizer
+*   npm i image-minimizer-webpack-plugin imagemin -D
+*   后根据需要分为有损压缩和无损压缩
+*   无损压缩:npm install imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo --save-dev
+*   有损压缩:npm install imagemin-gifsicle imagemin-mozjpeg imagemin-pngquant imagemin-svgo --save-dev
+*   对于 v9.0.0+需要使用 svgo 配置imagemin-svgo
