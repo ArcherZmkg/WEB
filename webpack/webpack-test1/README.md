@@ -84,3 +84,5 @@
 *   无损压缩:npm install imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo --save-dev
 *   有损压缩:npm install imagemin-gifsicle imagemin-mozjpeg imagemin-pngquant imagemin-svgo --save-dev
 *   对于 v9.0.0+需要使用 svgo 配置imagemin-svgo
+
+##  Code Split优化代码运行性能

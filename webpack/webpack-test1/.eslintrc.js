@@ -12,5 +12,6 @@ module.exports = {
     //规则
     rules:{
         "no-var":2
-    }
+    },
+    plugins:['import']
 }

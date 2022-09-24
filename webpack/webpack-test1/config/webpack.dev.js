@@ -2,6 +2,7 @@ const path = require("path") //node.js核心模块,用来处理路径问题
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+ const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 
 //  查看cpu核数
 const os = require('os');
@@ -17,7 +18,10 @@ module.exports = {
         // path:path.resolve(__dirname,'dist'),//绝对路径
         path: undefined,//开发模式不需要输出,他输出在内存就进行了
         //文件名
-        filename: 'static/js/main.js',
+        filename: 'static/js/[name].js',
+        chunkFilename:'static/js/[name].chunk.js',
+        //  图片、字体等通过type:asset处理资源命名方式
+        assetModuleFilename:'static/media/[hash:10][ext][query]',
         //自动清空上一次打包内容
         //原理:在打包前,将path整个目录内容清空,再进行打包
         // clean:true   //开发模式不需要输出
@@ -82,19 +86,19 @@ module.exports = {
                         maxSize: 10 * 1024 // 10kb
                     },
                 },
-                generator: {
-                    //输出图片名称([hash][ext][query]表示图片命名情况,hash:10表示取hash值前十位)
-                    filename: 'static/images/[hash:10][ext][query]'
-                }
+                // generator: {
+                //     //输出图片名称([hash][ext][query]表示图片命名情况,hash:10表示取hash值前十位)
+                //     filename: 'static/images/[hash:10][ext][query]'
+                // }
 
             },
             {
                 test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
                 type: 'asset/resource',
-                generator: {
-                    //输出文件
-                    filename: 'static/media/[hash:10][ext][query]'
-                }
+                // generator: {
+                //     //输出文件
+                //     filename: 'static/media/[hash:10][ext][query]'
+                // }
 
             },
             {

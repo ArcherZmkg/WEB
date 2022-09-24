@@ -8,7 +8,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 //  JS代码压缩工具（webpack自带了,无需下载）
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 //图片压缩
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 
 //  查看cpu核数
@@ -51,7 +51,10 @@ module.exports = {
         //__dirname nodejs的变量,代表当前文件的文件夹目录
         path: path.resolve(__dirname, '../dist'),//绝对路径
         //文件名
-        filename: 'static/js/main.js',
+        filename: 'static/js/[name].js',
+        chunkFilename:'static/js/[name].chunk.js',
+        //  图片、字体等通过type:asset处理资源命名方式
+        assetModuleFilename:'static/media/[hash:10][ext][query]',
         //自动清空上一次打包内容
         //原理:在打包前,将path整个目录内容清空,再进行打包
         clean: true
@@ -92,19 +95,19 @@ module.exports = {
                                 maxSize: 10 * 1024 // 10kb
                             },
                         },
-                        generator: {
-                            //输出图片名称([hash][ext][query]表示图片命名情况,hash:10表示取hash值前十位)
-                            filename: 'static/images/[hash:10][ext][query]'
-                        }
+                        // generator: {
+                        //     //输出图片名称([hash][ext][query]表示图片命名情况,hash:10表示取hash值前十位)
+                        //     filename: 'static/images/[hash:10][ext][query]'
+                        // }
 
                     },
                     {
                         test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
                         type: 'asset/resource',
-                        generator: {
-                            //输出文件
-                            filename: 'static/media/[hash:10][ext][query]'
-                        }
+                        // generator: {
+                        //     //输出文件
+                        //     filename: 'static/media/[hash:10][ext][query]'
+                        // }
 
                     },
                     {
@@ -147,7 +150,8 @@ module.exports = {
             template: path.resolve(__dirname, '../public/index.html')
         }),
         new MiniCssExtractPlugin({
-            filename: ('static/css/main.css')
+            filename: ('static/css/[name].css'),
+            chunkFilename:'static/css/[name].chunk.css'
         }),
         //压缩方式写法一
         // new CssMinimizerPlugin(),
@@ -166,37 +170,42 @@ module.exports = {
                 parallel: threads,//开启多进程和设置进程数量
             }),
             //  压缩图片
-            new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.imageminGenerate,
-                    options: {
-                        // Lossless optimization with custom option
-                        // Feel free to experiment with options for better result for you
-                        plugins: [
-                            ["gifsicle", { interlaced: true }],
-                            ["jpegtran", { progressive: true }],
-                            ["optipng", { optimizationLevel: 5 }],
-                            // Svgo configuration here https://github.com/svg/svgo#configuration
-                            [
-                                "svgo",
-                                {
-                                    plugins: [
-                                        "preset-default",
-                                        "prefixIds",
-                                        {
-                                            name:"sortAttrs",
-                                            params:{
-                                                xlmnsOrder:"alphabetical"
-                                            }
-                                        }
-                                    ],
-                                },
-                            ],
-                        ],
-                    },
-                },
-            }),
-        ]
+            // new ImageMinimizerPlugin({
+            //     minimizer: {
+            //         implementation: ImageMinimizerPlugin.imageminGenerate,
+            //         options: {
+            //             // Lossless optimization with custom option
+            //             // Feel free to experiment with options for better result for you
+            //             plugins: [
+            //                 ["gifsicle", { interlaced: true }],
+            //                 ["jpegtran", { progressive: true }],
+            //                 ["optipng", { optimizationLevel: 5 }],
+            //                 // Svgo configuration here https://github.com/svg/svgo#configuration
+            //                 [
+            //                     "svgo",
+            //                     {
+            //                         plugins: [
+            //                             "preset-default",
+            //                             "prefixIds",
+            //                             {
+            //                                 name:"sortAttrs",
+            //                                 params:{
+            //                                     xlmnsOrder:"alphabetical"
+            //                                 }
+            //                             }
+            //                         ],
+            //                     },
+            //                 ],
+            //             ],
+            //         },
+            //     },
+            // }),
+        ],
+        //  代码分割配置
+        splitChunks:{
+            chunks:'all',
+            //其他都用默认值
+        }
     },
     //开发服务器:不会输出资源,在内存中编译打包
     // devServer: {
